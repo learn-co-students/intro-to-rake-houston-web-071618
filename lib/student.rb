@@ -3,10 +3,10 @@ require_relative "../config/environment.rb"
 class Student
 
   # Remember, you can access your database connection anywhere in this class
-  #  with DB[:conn]  
-  
+  #  with DB[:conn]
+
   attr_accessor :name, :grade
-  
+
   attr_reader :id
   
   def initialize(name, grade, id=nil)
@@ -14,31 +14,31 @@ class Student
     @name = name
     @grade = grade
   end
-  
+
   def self.create_table
-    sql =  <<-SQL 
+    sql =  <<-SQL
       CREATE TABLE IF NOT EXISTS students (
-        id INTEGER PRIMARY KEY, 
-        name TEXT, 
+        id INTEGER PRIMARY KEY,
+        name TEXT,
         grade TEXT
         )
     SQL
-    DB[:conn].execute(sql) 
+    DB[:conn].execute(sql)
   end
 
   def self.drop_table
     sql = "DROP TABLE IF EXISTS students"
-    DB[:conn].execute(sql) 
+    DB[:conn].execute(sql)
   end
-  
+
   def save
     sql = <<-SQL
-      INSERT INTO students (name, grade) 
+      INSERT INTO students (name, grade)
       VALUES (?, ?)
     SQL
 
     DB[:conn].execute(sql, self.name, self.grade)
-    
+
   end
 
   def self.create(name:, grade:)
@@ -47,7 +47,7 @@ class Student
   end
 
   def self.all
-    sql = "SELECT * FROM students" 
+    sql = "SELECT * FROM students"
     DB[:conn].execute(sql)
   end
 
